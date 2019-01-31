@@ -1,0 +1,29 @@
+{
+  "name": "EPGServer",
+  "version": "1.0.0",
+  "description": "EPG Server",
+  "main": "server/index.js",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "restify": "^7.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlcampana/epg-server-node.git"
+  },
+  "keywords": [
+    "EPG",
+    "IPTV"
+  ],
+  "author": "Jose Luis Campaña",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlcampana/epg-server-node/issues"
+  },
+  "homepage": "https://github.com/jlcampana/epg-server-node#readme"
+}
