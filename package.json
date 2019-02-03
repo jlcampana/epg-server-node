@@ -4,6 +4,7 @@
   "description": "EPG Server",
   "main": "server/index.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "install": "^0.12.2",
     "js2xmlparser": "^3.0.0",

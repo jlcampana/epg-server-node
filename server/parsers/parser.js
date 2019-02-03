@@ -1,6 +1,8 @@
+const axios = require('axios');
+
 class Parser{
-  async remote() {
-    return new Promise((resolve, _) => resolve([]));
+  async remote({ method, uri, body }) {
+    return axios({ method, uri, body }).then(res => res.data);
   }
 
   async channelList() {
