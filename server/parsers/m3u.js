@@ -1,7 +1,7 @@
-class M3UParser{
+class ParserM3U{
   async remote() {
     return new Promise((resolve, _) => resolve([]));
   }
 }
 
-exports.M3UParser = M3UParser;
+exports.ParserM3U = ParserM3U;
