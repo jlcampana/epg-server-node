@@ -2,13 +2,17 @@ const { Parser } = require('./parser');
 const fs = require('fs');
 
 class ParserM3U extends Parser{
-  constructor(url, {logger} = {}) {
+  constructor(url, {logger, whitelist, countryGroup, removeFromTitle, removeChannelContains} = {}) {
     super({ logger });
-
+    this.filterGroups = []
     this.channels = [];
     this.groups = {};
     this.groupedChannels = {};
     this.url = url;
+    this.whitelist = whitelist || [];
+    this.countryGroup = countryGroup || {};
+    this.removeFromTitle = removeFromTitle || [];
+    this.removeChannelContains = removeChannelContains || [];
   }
 
   async remote() {
@@ -27,15 +31,16 @@ class ParserM3U extends Parser{
 
   _map(channels) {
     const result = channels.map(line => {
+
       try {
-        let data = line.split('\r\n');
+        let data = line.split('\n');
         const url = data[1].split('/');
         const id = url[url.length - 1].trim().slice();
 
         data = data[0].split('"').join('');
         data = data.split('group-title=')
         const group = data[1].split(',')[0].trim().slice();
-
+        const country = this.countryGroup[group];
         data = data[0].split('tvg-logo=');
 
         const icon = data[1].trim().slice();
@@ -46,7 +51,13 @@ class ParserM3U extends Parser{
 
         const int_id = data[1].trim().slice();
 
-        return {id, name, group, icon, int_id}
+        let name2 = name.toUpperCase();
+        this.removeFromTitle.forEach(item => {
+          name2 = name2.replace(item, '');
+        });
+        name2 = name2.trim();
+
+        return { name2, name, country, id, group, icon, int_id };
       } catch (err) {
         this.logger.error(`Unexpected line format: ${line}`);
       }
@@ -55,8 +66,21 @@ class ParserM3U extends Parser{
     return result
   }
 
-  _reduceVOD(channels) {
-    return channels.filter(ch => !ch.id.endsWith('.mkv') && !ch.id.endsWith('.avi') )
+  _reduceByGroup(channels) {
+    channels = channels.filter(ch => !ch.id.endsWith('.mkv') && !ch.id.endsWith('.avi'))
+
+    if (this.whitelist.length) {
+      channels = channels.filter(ch => this.whitelist.includes(ch.group));
+    }
+
+    if (this.removeChannelContains.length) {
+      channels = channels.filter(ch => this.removeChannelContains.reduce((acc, item) => {
+        acc = ch.name2.includes(item) ? false : acc;
+        return acc;
+      }, true))
+    }
+
+    return channels;
   }
 
   _groupChannels(channels) {
@@ -72,8 +96,8 @@ class ParserM3U extends Parser{
       groupedChannels[channel.group][channel.name] = channel;
     });
 
-    this.channels = { ...channels };
-    this.groups = {...groups};
+    this.channels = channels;
+    this.groups = groups;
     this.groupedChannels = { ...groupedChannels };
   }
 
@@ -84,7 +108,7 @@ class ParserM3U extends Parser{
       if (channels.length && channels.length > 1) {
         channels.shift();
         channels = this._map(channels);
-        channels = this._reduceVOD(channels);
+        channels = this._reduceByGroup(channels);
 
         this._groupChannels(channels);
 

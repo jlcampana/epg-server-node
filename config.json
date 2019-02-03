@@ -1,0 +1,16 @@
+{
+  "whitelist": ["ESPAÑA","BOLIVIA1","CHILE1","ECUADOR1","MEXICO1","PERU1","USA2","USA1","LATINOS1","LATINOS2","LATINOS3","COLOMBIA1"],
+  "countryGroup": {
+    "ESPAÑA": "ES",
+    "COLOMBIA1": "CO",
+    "BOLIVIA1": "BO",
+    "CHILE1": "CL",
+    "ECUADOR1": "EC",
+    "MEXICO1": "MX",
+    "PERU1": "PE",
+    "USA1": "US",
+    "USA2": "US"
+  },
+  "removeFromTitle": [" 720P", " 1080 4MB", " 1080 6MB"," 1080", " 720", " SD", " HD", " FHD", "BO: ", "CL: ", "EC: ", "MX: ", "PE: ", "CA: ", "US: ", "US: ", "USA: ", "CO: ", "LA: ", "LATINO: ", "|LAT| ", "LAT ", "VIP LAT: ", "|VE| "],
+  "removeChannelContains": ["PPV", "24/7"]
+}
