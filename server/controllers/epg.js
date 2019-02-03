@@ -1,10 +1,16 @@
 const json2xml = require('js2xmlparser');
-const {Channel, Program, options} = require('../xml')
+const { Channel, Program, options } = require('../xml');
+const { ParserM3U } = require('../parsers/m3u');
 
-const get = (req, res, next) => {
+const get = async (req, res, next) => {
   const channel = [];
   const programme = [];
 
+  const iptv = new ParserM3U(process.env.IPTV_SERVER);
+  await iptv.remote();
+
+
+  // -------------------
   const chan = new Channel('AZTECA-UNO', 'http://AZTECA-UNO.png', 'Azteca uno', 'ES');
   chan.newName = 'Azteca 1';
   channel.push(chan.xml);

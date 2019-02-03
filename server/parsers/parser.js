@@ -1,20 +1,37 @@
 const axios = require('axios');
 
-class Parser{
-  async remote({ method, uri, body }) {
-    return axios({ method, uri, body }).then(res => res.data);
+class Parser {
+  constructor({
+    logger
+  } = {}) {
+    this.logger = logger || console;
   }
 
-  async channelList() {
-    return new Promise((resolve, _) => resolve([]));
+  async remote({
+    method,
+    url,
+    headers,
+    body
+  }) {
+    this.logger.debug(`FETCHING ${method} ${url}`);
+
+    return axios({
+      method,
+      url,
+      body
+    }).then(res => {
+      this.logger.debug(`END OK ${method} ${url}`);
+
+      return res.data;
+    }).catch(err => {
+      this.logger.error(`END KO ${method} ${url} error: ${JSON.stringify(err)}`);
+
+      return err;
+    });
   }
 
-  async programList() {
-    return new Promise((resolve, _) => resolve([]));
-  }
-
-  formatedDate() {
-    return undefined;
+  setLogger(logger) {
+    this.logger = logger;
   }
 }
 

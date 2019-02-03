@@ -7,14 +7,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/server/index.js"
+      "name": "test",
+      "program": "${workspaceFolder}/test.js",
+      "sourceMaps": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "XML",
-      "program": "${workspaceFolder}/server/xml/test.js"
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/server/index.js"
     }
   ]
 }
