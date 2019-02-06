@@ -7,6 +7,7 @@ class ParserM3U extends Parser{
     this.filterGroups = []
     this.channels = [];
     this.groups = {};
+    this.channelByName = {};
     this.groupedChannels = {};
     this.url = url;
     this.whitelist = whitelist || [];
@@ -34,6 +35,7 @@ class ParserM3U extends Parser{
 
       try {
         let data = line.split('\n');
+        const urlIPTV = data[1];
         const url = data[1].split('/');
         const id = url[url.length - 1].trim().slice();
 
@@ -49,7 +51,7 @@ class ParserM3U extends Parser{
         const name = data[1].trim().slice();
         data = data[0].split('tvg-ID=');
 
-        const int_id = data[1].trim().slice();
+        const tvgId = data[1].trim().slice();
 
         let name2 = name.toUpperCase();
         this.removeFromTitle.forEach(item => {
@@ -57,7 +59,7 @@ class ParserM3U extends Parser{
         });
         name2 = name2.trim();
 
-        return { name2, name, country, id, group, icon, int_id };
+        return { name2, name, country, id, urlIPTV, group, icon, tvgId };
       } catch (err) {
         this.logger.error(`Unexpected line format: ${line}`);
       }
@@ -74,10 +76,10 @@ class ParserM3U extends Parser{
     }
 
     if (this.removeChannelContains.length) {
-      channels = channels.filter(ch => this.removeChannelContains.reduce((acc, item) => {
-        acc = ch.name2.includes(item) ? false : acc;
-        return acc;
-      }, true))
+      channels = channels.filter(ch => this.removeChannelContains.reduce((acc, name) => {
+        acc = acc && !ch.name2.includes(name);
+        return acc
+      }, true));
     }
 
     return channels;
@@ -85,19 +87,28 @@ class ParserM3U extends Parser{
 
   _groupChannels(channels) {
     const groups = [];
+    const names = {}
     const groupedChannels = {};
 
     channels.forEach(channel => {
+      //Group by group
       if (!groups.includes(channel.group)) {
         groups.push(channel.group);
         groupedChannels[channel.group] = {}
       }
 
-      groupedChannels[channel.group][channel.name] = channel;
+      groupedChannels[channel.group][channel.name2] = channel;
+
+      //Group by name
+      if (!names[channel.name2]) {
+        names[channel.name2] = [];
+      }
+      names[channel.name2].push(channel);
     });
 
     this.channels = channels;
     this.groups = groups;
+    this.channelByName = { ...names };
     this.groupedChannels = { ...groupedChannels };
   }
 
