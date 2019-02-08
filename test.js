@@ -1,4 +1,5 @@
 const { ParserM3U } = require('./server/parsers/m3u');
+const {M3UGenerator} = require('./server/generators/m3u');
 const { config } = require('dotenv');
 const { whitelist, countryGroup, removeFromTitle, removeChannelContains } = require('./config.json');
 config(); //Injecting variables to process.env from .env file
@@ -11,7 +12,10 @@ const test = async () => {
   const res = await iptv.readFromFile('./channels.m3u');
   await iptv.parse(res);
 
-  console.log(iptv.groups);
+  const generator = new M3UGenerator(iptv.groupedChannels,{groups: ["ESPAÑA"]})
+  const m3u = await generator.generate();
+
+  console.log(m3u);
 }
 
 test();

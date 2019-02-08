@@ -4,6 +4,12 @@
 
 To get documentation about the EPG XML format, please visit[XMLTV.ORG => XMLTVFormat](http://wiki.xmltv.org/index.php/XMLTVFormat)
 
+Please check the following [Reddit posts](https://www.reddit.com/r/IPTV/comments/97jd7n/is_there_a_m3u_playlist_and_epg_xml_data_channel/)
+
+### Creating the XML
+
+...
+
 ### XML Sample
 
 ```xml

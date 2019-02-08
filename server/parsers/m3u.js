@@ -51,7 +51,7 @@ class ParserM3U extends Parser{
         const name = data[1].trim().slice();
         data = data[0].split('tvg-ID=');
 
-        const tvgId = data[1].trim().slice();
+        let tvgId = data[1].trim().slice();
 
         let name2 = name.toUpperCase();
         this.removeFromTitle.forEach(item => {
@@ -59,9 +59,15 @@ class ParserM3U extends Parser{
         });
         name2 = name2.trim();
 
+        if(tvgId === ""){
+          tvgId = name2
+        }
+  
+        tvgId=tvgId.replace(/ /g, '_')
+
         return { name2, name, country, id, urlIPTV, group, icon, tvgId };
       } catch (err) {
-        this.logger.error(`Unexpected line format: ${line}`);
+        this.logger.error(`Unexpected line format: ${line} - error: ${JSON.stringify(err)}`);
       }
     });
 
@@ -91,6 +97,8 @@ class ParserM3U extends Parser{
     const groupedChannels = {};
 
     channels.forEach(channel => {
+      
+
       //Group by group
       if (!groups.includes(channel.group)) {
         groups.push(channel.group);
