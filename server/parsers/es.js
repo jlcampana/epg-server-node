@@ -30,6 +30,8 @@ class ParserES extends Parser {
   }
 
   async _parseRemote(res) {
+    const channels = Object.keys(res);
+
     return new Promise((resolve, _) => resolve(res));
   }
 
