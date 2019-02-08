@@ -8,6 +8,7 @@
     "dotenv": "^6.2.0",
     "install": "^0.12.2",
     "js2xmlparser": "^3.0.0",
+    "moment": "^2.24.0",
     "npm": "^6.7.0",
     "restify": "^7.6.0",
     "restify-pino-logger": "^3.0.0"
