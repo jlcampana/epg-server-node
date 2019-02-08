@@ -97,7 +97,11 @@ class ParserM3U extends Parser{
         groupedChannels[channel.group] = {}
       }
 
-      groupedChannels[channel.group][channel.name2] = channel;
+      if(!groupedChannels[channel.group][channel.name2]){
+        groupedChannels[channel.group][channel.name2] = []
+      }
+
+      groupedChannels[channel.group][channel.name2].push(channel);
 
       //Group by name
       if (!names[channel.name2]) {
