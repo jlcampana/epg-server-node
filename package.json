@@ -5,11 +5,15 @@
   "main": "server/index.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "debug": "^4.1.1",
     "dotenv": "^6.2.0",
     "install": "^0.12.2",
     "js2xmlparser": "^3.0.0",
     "moment": "^2.24.0",
     "npm": "^6.7.0",
+    "pino": "^5.11.1",
+    "pino-debug": "^1.2.0",
+    "pino-pretty": "^2.5.0",
     "restify": "^7.6.0",
     "restify-pino-logger": "^3.0.0"
   },

@@ -1,37 +1,28 @@
-const axios = require('axios');
-
+const axios = require("axios");
+const logger = require("./logger").namespace("Parser");
 class Parser {
-  constructor({
-    logger
-  } = {}) {
-    this.logger = logger || console;
-  }
-
-  async remote({
-    method,
-    url,
-    headers,
-    body
-  }) {
-    this.logger.debug(`FETCHING ${method} ${url}`);
+  async remote({ method, url, headers, body }) {
+    logger.debug(`FETCHING ${method} ${url}`);
 
     return axios({
       method,
       url,
       body
-    }).then(res => {
-      this.logger.debug(`END OK ${method} ${url}`);
+    })
+      .then(res => {
+        logger.debug(`END OK ${method} ${url}`);
 
-      return res.data;
-    }).catch(err => {
-      this.logger.error(`END KO ${method} ${url} error: ${JSON.stringify(err)}`);
+        return res.data;
+      })
+      .catch(err => {
+        logger.error(`END KO ${method} ${url} error: ${JSON.stringify(err)}`);
 
-      return err;
-    });
+        return err;
+      });
   }
 
   setLogger(logger) {
-    this.logger = logger;
+    logger = logger;
   }
 }
 

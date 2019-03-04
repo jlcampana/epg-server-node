@@ -79,16 +79,19 @@ class ParserM3U extends Parser {
    * @param {array} channels
    */
   export({ filter } = {}) {
-    const M3U_HEADER = "#EXTM3U\n";
+    const M3U_HEADER =
+      '#EXTM3U url-tvg="http://localhost/epg" m3uautoload=1 cache=500 deinterlace=1 tvg-shift=0\n';
     let result = "";
     const filteredChannels = this.channels;
 
     filteredChannels.forEach(channel => {
-      result = `${result}\n#EXTINF:-1 tvg-ID="${channel.tvgId}" tvg-name="${
-        channel.name2
-      }" tvg-logo="${channel.icon}" group-title="${channel.group}",${
-        channel.name2
-      } (${channel.id})\n${channel.urlIPTV}`;
+      result = `${result}\n#EXTINF:-1 tvg-ID="${channel.tvgId}" channel-id="${
+        channel.id
+      }" epg-id="" tvg-name="${channel.name2}" tvg-logo="${
+        channel.icon
+      }" group-title="${channel.group}",${channel.name2} (${channel.id})\n${
+        channel.urlIPTV
+      }`;
     });
 
     return `${M3U_HEADER}\n${result}`;
