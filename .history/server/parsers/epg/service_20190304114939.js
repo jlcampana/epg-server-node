@@ -1,5 +1,5 @@
 const moment = require('moment')
-const logger = require('../../debug').namespace('EPG')
+const logger = require('../debug').namespace('EPG')
 let instance = undefined
 
 class EPGDataSource {

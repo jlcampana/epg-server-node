@@ -1,18 +1,16 @@
-const { config } = require('dotenv')
-config()
 const { Logger } = require('./server/logger')
 const log = new Logger('epg-server')
 const moment = require('moment')
 const { ParserM3U } = require('./server/parsers/m3u')
 const { EPG } = require('./server/parsers/epg/service')
-
+const { config } = require('dotenv')
 const {
   whitelist,
   countryGroup,
   removeFromTitle,
   removeChannelContains
 } = require('./config.json')
-//Injecting variables to process.env from .env file
+config() //Injecting variables to process.env from .env file
 
 require('./server/init').checkEnv()
 
